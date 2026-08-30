@@ -1034,6 +1034,7 @@ En el spike real, estas comprobaciones deben convertirse en un validador version
 - [Hecho] El clone contiene PBS, Data/Scripts, Game.exe y Scripts.rxdata.
 - [Hecho] El clone contiene cero archivos .rxproj y cero Data/MapInfos.rxdata.
 - [Hecho] El workspace público no recibió binarios de RPG Maker, Essentials completo, DLLs, sprites oficiales, música ni sonidos.
+- [Hecho] El Dev Kit completo descargado localmente pesa 61.987.094 bytes y tiene SHA-256 `DA0A34EC81ED40A4346FE6101DEBD7D938CBEADD43FF0AAD87C3E388392A1665`.
 
 La capa pública se inspeccionó en una carpeta temporal local fuera del repo. Esa ruta es evidencia de la sesión, no una dependencia que deba entrar al repositorio.
 

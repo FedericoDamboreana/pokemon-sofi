@@ -16,6 +16,9 @@ coverage/
 tmp/
 temp/
 *.log
+*.zip
+*.rar
+*.7z
 
 # Local tooling
 .venv/
