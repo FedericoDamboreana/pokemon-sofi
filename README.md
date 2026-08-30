@@ -8,7 +8,7 @@ El repositorio está en preproducción. Contiene el diseño, la investigación t
 
 ## Documentación
 
-- `PROJECT_CONTEXT_POKEMON_SOFI.md`: contexto original y decisiones iniciales.
+- El contexto personal original se mantiene fuera de este repositorio público.
 - `design/creative-research/GAME_DESIGN.md`: Game Design Document.
 - `design/production/MAP_MANIFEST.md`: manifiesto auditable de 55 cargas de mapa.
 - `design/production/POKEDEX_SCOPE.md`: alcance previsto de las 493 especies.
