@@ -6,6 +6,7 @@
 *.key
 secrets/
 private/
+PROJECT_CONTEXT_POKEMON_SOFI.md
 
 # Generated output and temporary files
 build/
@@ -39,4 +40,3 @@ assets/_unreviewed/
 assets/official/
 assets/extracted/
 vendor/_unreviewed/
-
