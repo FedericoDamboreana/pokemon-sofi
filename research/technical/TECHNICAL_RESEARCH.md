@@ -1094,3 +1094,45 @@ Cuando la PC esté libre:
 7. Ejecutar la compilación PBS y registrar logs, versión, hash y resultado.
 
 Hasta completar esos pasos, la Fase 0 está parcialmente verificada y la Fase 1 está bloqueada. No se puede declarar compilación funcional de Essentials ni probar el juego base sólo con el clone público.
+
+### Actualización: paquete base ya preparado
+
+[Hecho, verificado por filesystem] El ZIP completo está en una ubicación local no versionada:
+
+    Pokemon Essentials v21.1 2023-07-30.zip
+
+SHA-256 verificado:
+
+    DA0A34EC81ED40A4346FE6101DEBD7D938CBEADD43FF0AAD87C3E388392A1665
+
+[Hecho, verificado por filesystem] La copia limpia combinada está en una carpeta temporal local fuera del repo.
+
+Contiene Game.rxproj, Game.exe, Game.ini, Data/MapInfos.rxdata, Data/Map001.rxdata, Data/Scripts.rxdata, Data/Scripts/, Graphics/, Audio/, Fonts/, Plugins/, PBS/ y 70 archivos Data/Map*.rxdata. No contiene .git.
+
+La compilación PBS se expone desde el menú Debug de Essentials como:
+
+    Files options... > Compile data
+
+El código invoca Compiler.compile_all(true), que compila PBS, animaciones, eventos de trainer y mensajes.
+
+Siguiente paso manual mínimo, cuando la PC esté libre:
+
+1. Abrir RPG Maker XP.
+2. Elegir File > Open Project.
+3. Seleccionar `Game.rxproj` dentro de la copia limpia local del spike.
+4. Cuando cargue el proyecto, abrir el menú Debug > Files options... > Compile data.
+5. Guardar el resultado del compile log y cualquier error, sin iniciar todavía la producción ni copiar el entorno al repo.
+
+No se debe commitear el ZIP ni ningún contenido propietario al repo público. La carpeta temporal es el entorno de spike; el ZIP debe moverse fuera del workspace antes de cualquier revisión pública si continúa allí.
+
+### Incidencia del smoke test: evento de ribbon sin party
+
+[Hecho, reproducido] El smoke test manual pudo abrir el juego, iniciar una partida, moverse, entrar en edificios e interactuar con NPCs. Falló únicamente el evento 5 del mapa 8 (`Lappet Town`), coordenadas 3,4.
+
+[Causa confirmada] El evento de muestra `Contest ribbon giver` ejecuta `$player.first_pokemon`. Con la party vacía, `first_pokemon` devuelve `nil`; por eso falla `pkmn.upgradeRibbon(...)` y no por un problema del método `upgradeRibbon`.
+
+[Parche propuesto, no aplicado] Agregar en la rama `Yes` una condición para `$player.first_pokemon`. Si no existe, mostrar un mensaje equivalente a `Bring a Pokémon with you first.` y ejecutar `Exit Event Processing`. No alcanza con proteger sólo la llamada a `upgradeRibbon`, porque el evento también accede a `pkmn.name`.
+
+[Integridad] `Data/Map008.rxdata` no fue modificado. SHA-256 observado durante el spike: `6A3B16C15F6DA7D1DA6B8256F8FBCF1CEC1C5F27B415C857906C1AB05F866D17`.
+
+Este parche pertenece al entorno local de prueba y no debe mezclarse con el engine base ni entrar al repo público hasta decidir si se conserva como corrección de fixture.
