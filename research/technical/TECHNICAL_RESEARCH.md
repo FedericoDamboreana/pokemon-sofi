@@ -1022,3 +1022,74 @@ La validación local del ledger, cuando exista el tooling, debe comprobar:
 
 En el spike real, estas comprobaciones deben convertirse en un validador versionado y ejecutarse junto al compilador. No se instalaron herramientas ni se ejecutó el juego para crear estos documentos.
 
+## Estado de la Fase 0/1: bloqueo del paquete base
+
+### Evidencia verificada localmente
+
+- [Hecho] RPG Maker XP existe en C:\Program Files (x86)\Steam\steamapps\common\RPGXP\RPGXP.exe.
+- [Hecho] El ejecutable reporta versión de archivo/producto 1.0.5.0.
+- [Hecho] El ejecutable se pudo iniciar y su ventana respondió durante la comprobación inicial.
+- [Hecho] El clone local de la capa pública v21.1 está fuera del repo, en una carpeta temporal.
+- [Hecho] El clone está fijado al tag v21.1, commit ea7b5d56d2436591160983c4e641a2ceee2d875a.
+- [Hecho] El clone contiene PBS, Data/Scripts, Game.exe y Scripts.rxdata.
+- [Hecho] El clone contiene cero archivos .rxproj y cero Data/MapInfos.rxdata.
+- [Hecho] El workspace público no recibió binarios de RPG Maker, Essentials completo, DLLs, sprites oficiales, música ni sonidos.
+
+La capa pública se inspeccionó en una carpeta temporal local fuera del repo. Esa ruta es evidencia de la sesión, no una dependencia que deba entrar al repositorio.
+
+### Fuente correcta del paquete completo
+
+[Hecho] El README del repo de Maruno indica que el repositorio se debe clonar dentro de una copia separada de Essentials v21.1 y que el paquete completo no está incluido. También enumera como ausentes Audio/, Graphics/, Plugins/, la mayor parte de Data/ y el archivo de proyecto. [README de Pokémon Essentials v21.1](https://raw.githubusercontent.com/Maruno17/pokemon-essentials/v21.1/README.md)
+
+[Hecho] La página del Dev Kit Essentials v21.1 de Eevee Expo está atribuida a Maruno, identifica la versión 21.1 y ofrece el enlace de descarga del paquete. [Dev Kit Essentials v21.1](https://www.eeveeexpo.com/essentials/), [página de descarga](https://www.eeveeexpo.com/essentials/download)
+
+[Criterio de confianza] La atribución a Maruno y la versión están verificadas en la página de Eevee Expo. El host del archivo es MediaFire y no se encontró un checksum oficial publicado en la página. La descarga manual posterior debe conservar el ZIP original, registrar su SHA-256 y no subirlo al repo.
+
+No se debe usar como sustituto un mirror desconocido, un proyecto de fangame ya modificado o un pack que mezcle Essentials con mapas, sprites o plugins sin provenance.
+
+### Estructura mínima esperada
+
+Para que RPG Maker XP pueda abrir el proyecto:
+
+    Game.rxproj
+    Data/
+      MapInfos.rxdata
+      Map001.rxdata
+      System.rxdata
+      Scripts.rxdata
+
+Para que el juego base pueda arrancar de forma útil, además se esperan:
+
+    Game.exe o runner equivalente
+    Game.ini o configuración equivalente del runner
+    Data/ con las bases RXDATA requeridas por RPG Maker XP
+    Graphics/
+      Animations/
+      Characters/
+      Pictures/
+      System/
+      Tilesets/
+    Audio/
+      BGM/
+      BGS/
+      ME/
+      SE/
+    Fonts/
+    Plugins/
+    PBS/
+
+En Essentials v21.1 también deben integrarse los scripts extraídos en Data/Scripts/, el Scripts.rxdata especial de la distribución y los PBS del engine. MapInfos.rxdata mantiene el árbol de mapas; los MapXXX.rxdata contienen los mapas y eventos. [Estructuras de datos de Essentials](https://essentialsdocs.fandom.com/wiki/Data_Structures), [guía de actualización](https://essentialsdocs.fandom.com/wiki/Guide%3AHow_to_upgrade_your_game)
+
+### Acción manual pendiente
+
+Cuando la PC esté libre:
+
+1. Descargar manualmente el paquete desde la página del Dev Kit v21.1 de Eevee Expo.
+2. Guardar el ZIP fuera del repo y calcular SHA-256.
+3. Extraerlo en una carpeta local temporal o de desarrollo fuera del workspace público.
+4. Confirmar la presencia de Game.rxproj, Data/MapInfos.rxdata, mapas, Graphics/, Audio/, Fonts/, Plugins/ y PBS/.
+5. Aplicar encima la capa pública v21.1 fijada al commit documentado, sin copiar el paquete completo al repo.
+6. Abrir manualmente Game.rxproj desde RPG Maker XP.
+7. Ejecutar la compilación PBS y registrar logs, versión, hash y resultado.
+
+Hasta completar esos pasos, la Fase 0 está parcialmente verificada y la Fase 1 está bloqueada. No se puede declarar compilación funcional de Essentials ni probar el juego base sólo con el clone público.
